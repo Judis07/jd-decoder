@@ -8,7 +8,7 @@ const Footer = () => {
         <Logo />
 
         <p className="text-[#8B949E] text-center md:text-left">
-          &copy; {new Date().getFullYear()} JD Decoder. Created by{" "}
+          &copy; {new Date().getFullYear()} jdstrip.com. Created by{" "}
           <a
             href="https://www.linkedin.com/in/arvind-m-ab2a71148"
             target="_blank"

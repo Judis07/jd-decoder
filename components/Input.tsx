@@ -94,21 +94,23 @@ const Input = ({ isAnalyzing, onDecode }: InputProps) => {
           </div>
 
           {/* Action bar inside the window */}
-          <div className="border-t border-[#30363D] px-4 py-2.5 bg-[#161B22]/50 flex items-center justify-between">
-            <span className="font-mono text-[10px] text-[#8B949E]">
-              ASCII characters: {jdText.length}
-            </span>
+          <div className="border-t border-[#30363D] px-4 py-2.5 bg-[#161B22]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3.5 font-mono text-[10px] text-[#8B949E]">
+              <span>ASCII characters: {jdText.length}</span>
+              <span className="hidden sm:inline text-[#30363D]">|</span>
+              <span>Works with any job board — LinkedIn, Naukri, AngelList</span>
+            </div>
 
             <button
               type="submit"
               disabled={isAnalyzing || !jdText.trim()}
-              className="bg-[#D4933A] hover:bg-[#c2822d] text-[#0D1117] font-mono text-xs font-bold px-4 py-1.5 rounded transition-all disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1.5 cursor-pointer"
+              className="bg-[#D4933A] hover:bg-[#c2822d] text-[#0D1117] font-mono text-xs font-bold px-4 py-1.5 rounded transition-all disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-1.5 cursor-pointer self-end sm:self-auto"
             >
               {isAnalyzing ? (
-                <span>DECODING...</span>
+                <span>STRIPPING...</span>
               ) : (
                 <>
-                  <span>DECODE_JD</span>
+                  <span>STRIP_JD</span>
                   <ArrowRight className="h-3 w-3" />
                 </>
               )}

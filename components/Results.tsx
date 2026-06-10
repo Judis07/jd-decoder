@@ -24,7 +24,7 @@ const Results = ({
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="font-mono text-[10px] uppercase font-bold text-[#8B949E] border border-[#30363D] px-1.5 py-0.2 rounded bg-[#0D1117]">
-              OUTPUT_DECODED
+              OUTPUT_STRIPPED
             </span>
             <span className="font-mono text-[10px] text-[#8B949E] flex items-center gap-1">
               <TrendingUp className="h-3.5 w-3.5" />

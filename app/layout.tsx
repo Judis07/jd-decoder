@@ -15,8 +15,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "JD Decoder — Reveal Hidden Job Requirements & Study Roadmap",
-  description: "Decode any job description instantly. Extract core skills, nice-to-haves, corporate red flags, seniority indicators, and a curated study checklist.",
+  title: "JD Strip — Reveal Hidden Job Requirements & Study Roadmap",
+  description: "Strip down any job description instantly. Extract core skills, nice-to-haves, corporate red flags, seniority indicators, and a curated study checklist.",
 };
 
 export default function RootLayout({
