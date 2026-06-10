@@ -260,15 +260,15 @@ export default function Home() {
                     {results.confidence}% match confidence
                   </span>
                 </div>
-                <h2 className="font-mono font-bold text-lg text-[#F0F6FC]">
+                <h2 className="font-mono font-bold text-xl sm:text-2xl text-[#F0F6FC] tracking-tight">
                   {results.roleTitle}
                 </h2>
               </div>
               
               <div className="flex items-center gap-3 bg-[#0D1117] border border-[#30363D] px-3.5 py-1.5 rounded-lg self-start md:self-auto">
                 <div className="text-right">
-                  <div className="font-mono text-[9px] uppercase text-[#8B949E]">seniority</div>
-                  <div className="font-mono text-xs font-bold text-[#F0F6FC]">{results.seniority}</div>
+                  <div className="font-mono text-[10px] uppercase text-[#8B949E] tracking-wider">seniority</div>
+                  <div className="font-mono text-sm font-bold text-[#F0F6FC]">{results.seniority}</div>
                 </div>
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function Home() {
                   <div className="font-mono text-[10px] text-[#D4933A] uppercase tracking-wider mb-3">
                     // 01 / role summary
                   </div>
-                  <p className="text-xs text-[#C9D1D9] leading-relaxed mb-4">
+                  <p className="text-sm text-[#C9D1D9] leading-relaxed font-medium mb-4">
                     {results.summary}
                   </p>
                   
@@ -291,7 +291,7 @@ export default function Home() {
                     <div className="font-mono text-[9px] text-[#8B949E] uppercase tracking-wider mb-1">
                       candid translation:
                     </div>
-                    <p className="text-xs text-[#8B949E] italic leading-relaxed">
+                    <p className="text-sm sm:text-base text-[#8B949E] italic leading-relaxed font-medium">
                       &ldquo;{results.translatedSummary}&rdquo;
                     </p>
                   </div>
@@ -338,7 +338,7 @@ export default function Home() {
                   <div className="font-mono text-[9px] text-[#8B949E] uppercase tracking-wider mb-1">
                     rationale logic:
                   </div>
-                  <p className="text-xs text-[#8B949E] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#8B949E] leading-relaxed font-medium">
                     {results.seniorityReason}
                   </p>
                 </div>
@@ -353,10 +353,10 @@ export default function Home() {
                 <div className="space-y-4">
                   {/* Must-Haves */}
                   <div>
-                    <div className="font-mono text-[9px] uppercase tracking-wider text-[#F0F6FC] mb-2">
+                    <div className="font-mono text-[10px] uppercase tracking-wider text-[#F0F6FC] mb-2 font-bold">
                       [+] must-have competencies
                     </div>
-                    <ul className="space-y-1 font-mono text-xs text-[#C9D1D9]">
+                    <ul className="space-y-1.5 font-mono text-xs sm:text-sm text-[#C9D1D9] font-medium">
                       {results.mustHaves.map((skill, index) => (
                         <li key={index} className="flex items-center gap-1.5 py-0.5">
                           <span className="text-[#8B949E]">-</span>
@@ -368,10 +368,10 @@ export default function Home() {
 
                   {/* Nice-to-haves */}
                   <div>
-                    <div className="font-mono text-[9px] uppercase tracking-wider text-[#8B949E] mb-2">
+                    <div className="font-mono text-[10px] uppercase tracking-wider text-[#8B949E] mb-2 font-bold">
                       [?] nice-to-have options
                     </div>
-                    <ul className="space-y-1 font-mono text-xs text-[#8B949E]">
+                    <ul className="space-y-1.5 font-mono text-xs sm:text-sm text-[#8B949E] font-medium">
                       {results.niceToHaves.map((skill, index) => (
                         <li key={index} className="flex items-center gap-1.5 py-0.5">
                           <span className="text-[#30363D]">-</span>
@@ -393,7 +393,7 @@ export default function Home() {
                   {results.redFlags.map((flag, index) => (
                     <div key={index} className="border border-[#30363D] bg-[#0D1117] p-3 rounded-lg">
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className="font-mono text-[10px] text-[#F0F6FC] font-semibold">
+                        <span className="font-mono text-xs sm:text-sm text-[#F0F6FC] font-bold">
                           {flag.flag}
                         </span>
                         <span className={`font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.2 border ${
@@ -404,7 +404,7 @@ export default function Home() {
                           {flag.severity}_risk
                         </span>
                       </div>
-                      <p className="text-[11px] text-[#8B949E] leading-relaxed">
+                      <p className="text-xs sm:text-sm text-[#8B949E] leading-relaxed font-medium">
                         {flag.description}
                       </p>
                     </div>
@@ -444,16 +444,22 @@ export default function Home() {
                   <button
                     key={item.id}
                     onClick={() => toggleChecklistItem(item.id)}
-                    className={`w-full text-left font-mono text-[11px] p-2.5 border rounded flex items-center justify-between gap-3 transition-colors ${
+                    className={`w-full text-left font-mono text-[11px] sm:text-xs p-2.5 border rounded flex items-center justify-between gap-3 transition-colors ${
                       item.completed 
                         ? "border-[#30363D] bg-[#161B22]/20 text-[#8B949E]" 
                         : "border-[#30363D] bg-[#0D1117] hover:bg-[#161B22] text-[#C9D1D9]"
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <span className={`text-[10px] select-none ${item.completed ? "text-[#8B949E]" : "text-[#D4933A]"}`}>
-                        {item.completed ? "[X]" : "[ ]"}
-                      </span>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center flex-shrink-0 transition-colors ${
+                        item.completed 
+                          ? "border-[#30363D] bg-[#30363D]" 
+                          : "border-[#D4933A] bg-[#0D1117]"
+                      }`}>
+                        {item.completed && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#8B949E]" />
+                        )}
+                      </div>
                       <span className={item.completed ? "line-through text-[#8B949E]" : ""}>
                         {item.topic}
                       </span>
