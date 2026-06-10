@@ -2,48 +2,29 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import {
-  FileText,
-  Sparkles,
-  ShieldAlert,
-  GraduationCap,
-  CheckCircle2,
   ExternalLink,
   RotateCcw,
-  Loader2,
-  AlertTriangle,
-  // Linkedin,
-  Award,
-  Layers,
   ArrowRight,
   TrendingUp,
-  Bookmark,
-  CheckSquare,
-  Square,
-  Sparkle,
+  Terminal,
 } from "lucide-react";
-import {
-  SAMPLE_JDS,
-  decodeJobDescription,
-  type DecodedResult,
-} from "./mockDecoder";
+import { SAMPLE_JDS, decodeJobDescription, type DecodedResult } from "./mockDecoder";
 
 export default function Home() {
   const [jdText, setJdText] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentLoadingStep, setCurrentLoadingStep] = useState(0);
   const [results, setResults] = useState<DecodedResult | null>(null);
-  const [checklist, setChecklist] = useState<DecodedResult["studyChecklist"]>(
-    [],
-  );
+  const [checklist, setChecklist] = useState<DecodedResult["studyChecklist"]>([]);
 
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const loadingSteps = [
-    "Reading job description text patterns...",
-    "Translating corporate jargon into realistic demands...",
-    "Running seniority criteria analysis...",
-    "Cross-referencing technology requirements...",
-    "Compiling dynamic study roadmap & prep goals...",
+    "[RUNNING] scanning text segments...",
+    "[PARSING] separating must-haves from fluff...",
+    "[ANALYZE] mapping seniority level ratios...",
+    "[CHECK] flagging corporate jargon patterns...",
+    "[PROCESS] generating custom study roadmap...",
   ];
 
   const handleSampleClick = (type: "frontend" | "backend" | "fullstack") => {
@@ -70,10 +51,10 @@ export default function Home() {
         setChecklist(decoded.studyChecklist);
         setIsAnalyzing(false);
       }
-    }, 300); // 300ms * 5 steps = 1500ms total
+    }, 300); // 1500ms total loading
   };
 
-  // Scroll to results when results are populated
+  // Scroll to results
   useEffect(() => {
     if (results && resultsRef.current) {
       resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -83,37 +64,27 @@ export default function Home() {
   const toggleChecklistItem = (id: string) => {
     setChecklist((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item,
-      ),
+        item.id === id ? { ...item, completed: !item.completed } : item
+      )
     );
   };
 
   const completedCount = checklist.filter((item) => item.completed).length;
   const totalCount = checklist.length;
-  const progressPercent =
-    totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   return (
-    <div className="relative min-h-screen flex flex-col font-sans overflow-x-hidden">
-      {/* Decorative background glow orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-violet-600/10 glow-orb animate-glow" />
-      <div
-        className="absolute top-[40%] right-[-10%] w-[60%] h-[60%] bg-teal-500/5 glow-orb animate-glow"
-        style={{ animationDelay: "-2s" }}
-      />
-
+    <div className="min-h-screen flex flex-col font-sans bg-[#0D1117] text-[#C9D1D9] selection:bg-[#30363D]">
+      
       {/* Navigation */}
-      <header className="sticky top-0 z-50 glass-panel border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-gradient-to-tr from-violet-600 to-indigo-600 rounded-xl shadow-md shadow-violet-900/30">
-              <Sparkles className="h-5 w-5 text-white" />
-            </div>
-            <span className="font-display font-bold text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
-              JD<span className="text-violet-400">Decoder</span>
+      <header className="border-b border-[#30363D] bg-[#0D1117]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="font-mono font-bold tracking-tight text-[#F0F6FC] text-sm">
+              JD_<span className="text-[#D4933A]">DECODER</span>
             </span>
-            <span className="hidden sm:inline-block text-[10px] uppercase font-semibold tracking-wider text-violet-400/90 border border-violet-500/30 px-2 py-0.5 rounded-full bg-violet-950/40">
-              Phase 1
+            <span className="text-[10px] font-mono text-[#8B949E] border border-[#30363D] px-1.5 py-0.2 rounded bg-[#161B22]">
+              v1.0.0
             </span>
           </div>
 
@@ -122,173 +93,149 @@ export default function Home() {
               href="https://frontendprep.io"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-1.5 text-sm font-medium text-slate-300 hover:text-white transition-colors duration-200"
+              className="flex items-center gap-1 font-mono text-xs text-[#8B949E] hover:text-[#F0F6FC] transition-colors"
             >
               frontendprep.io
-              <ExternalLink className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
+              <ExternalLink className="h-3 w-3 text-[#8B949E]" />
             </a>
           </nav>
         </div>
       </header>
 
-      {/* Main Content Area */}
-      <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full z-10">
-        {/* Hero Section */}
-        <section className="text-center mb-10 max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-800 text-xs font-medium text-slate-300 mb-4 animate-fade-in-up">
-            <Sparkle
-              className="h-3.5 w-3.5 text-teal-400 animate-spin"
-              style={{ animationDuration: "8s" }}
-            />
-            <span>Behind-the-scenes Corporate Translator</span>
-          </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-black tracking-tight text-white mb-4 leading-tight animate-fade-in-up">
-            Decode Any Job Description <br className="hidden sm:block" />
-            <span className="text-gradient-purple-teal">In Seconds</span>
+      {/* Main Container */}
+      <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        
+        {/* Compact, Editorial Hero Section */}
+        <section className="mb-12 text-left border-l-2 border-[#30363D] pl-6">
+          <div className="font-mono text-xs text-[#8B949E] mb-2">// tool</div>
+          <h1 className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-[#F0F6FC] mb-2">
+            Cut through the <span className="text-[#D4933A]">noise</span><br />
+            in any job description
           </h1>
-          <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto leading-relaxed animate-fade-in-up">
-            Reveal the hidden expectations, filter out corporate buzzwords,
-            evaluate seniority, and get a customized prep roadmap.
+          <p className="text-[#8B949E] text-xs sm:text-sm max-w-xl leading-relaxed">
+            Paste a JD. Get what actually matters — real requirements, <span className="text-[#D4933A]">red flags</span>, seniority reality check, and what to study before you apply.
           </p>
         </section>
 
-        {/* Input Card Container */}
-        <section className="animate-fade-in-up">
-          <div className="glass-panel rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-            {/* Top border ambient glow effect */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
+        {/* Input Section */}
+        <section className="mb-8">
+          {/* Header Actions / Preset Selection */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+            <span className="font-mono text-[11px] uppercase tracking-wider text-[#8B949E]">
+              Input Source File
+            </span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] text-[#8B949E]">Quick presets:</span>
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={() => handleSampleClick("frontend")}
+                  className="font-mono text-[10px] bg-[#161B22] hover:bg-[#30363D] border border-[#30363D] text-[#C9D1D9] px-2 py-0.5 rounded transition-colors"
+                >
+                  frontend_dev.txt
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSampleClick("backend")}
+                  className="font-mono text-[10px] bg-[#161B22] hover:bg-[#30363D] border border-[#30363D] text-[#C9D1D9] px-2 py-0.5 rounded transition-colors"
+                >
+                  backend_dev.txt
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSampleClick("fullstack")}
+                  className="font-mono text-[10px] bg-[#161B22] hover:bg-[#30363D] border border-[#30363D] text-[#C9D1D9] px-2 py-0.5 rounded transition-colors"
+                >
+                  fullstack_dev.txt
+                </button>
+              </div>
+            </div>
+          </div>
 
-            <form onSubmit={handleDecode} className="space-y-6">
-              <div>
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-                  <label
-                    htmlFor="jd-input"
-                    className="block text-sm font-semibold tracking-wide uppercase text-slate-300"
+          {/* IDE style Container */}
+          <div className="border border-[#30363D] rounded-lg overflow-hidden bg-[#161B22]">
+            {/* Signature Terminal Tab Bar */}
+            <div className="bg-[#161B22] border-b border-[#30363D] px-4 py-2 flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] opacity-75" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] opacity-75" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F] opacity-75" />
+              </div>
+              <span className="font-mono text-[11px] text-[#8B949E]">jd_source.txt</span>
+              <div className="w-10" />
+            </div>
+
+            <form onSubmit={handleDecode} className="bg-[#0D1117]">
+              <div className="relative">
+                <textarea
+                  className="w-full min-h-[180px] max-h-[360px] bg-transparent text-[#F0F6FC] placeholder-[#8B949E] p-4 outline-none resize-y text-xs font-mono leading-relaxed"
+                  placeholder="Paste the raw job description text here to decode requirements..."
+                  value={jdText}
+                  onChange={(e) => setJdText(e.target.value)}
+                  required
+                />
+                {jdText && (
+                  <button
+                    type="button"
+                    onClick={() => setJdText("")}
+                    className="absolute bottom-3 right-3 text-[#8B949E] hover:text-[#F0F6FC] p-1 bg-[#161B22] border border-[#30363D] rounded transition-colors"
+                    title="Clear input"
                   >
-                    Paste Job Description Text
-                  </label>
-
-                  {/* Preset Helper Tags */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500 font-medium">
-                      Or try samples:
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => handleSampleClick("frontend")}
-                        className="text-xs bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg transition-all"
-                      >
-                        Frontend
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleSampleClick("backend")}
-                        className="text-xs bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg transition-all"
-                      >
-                        Backend
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleSampleClick("fullstack")}
-                        className="text-xs bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg transition-all"
-                      >
-                        Fullstack
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative rounded-xl border border-slate-800 focus-within:border-violet-500/80 focus-within:ring-2 focus-within:ring-violet-500/20 bg-slate-950/60 transition-all duration-200">
-                  <textarea
-                    id="jd-input"
-                    className="w-full min-h-[200px] max-h-[400px] bg-transparent text-slate-200 placeholder-slate-500 p-4 rounded-xl border-none outline-none resize-y text-sm leading-relaxed"
-                    placeholder="We are looking for a rockstar Engineer with 5+ years experience... Paste the job posting details here."
-                    value={jdText}
-                    onChange={(e) => setJdText(e.target.value)}
-                    required
-                  />
-                  {jdText && (
-                    <button
-                      type="button"
-                      onClick={() => setJdText("")}
-                      className="absolute bottom-3 right-3 text-slate-500 hover:text-slate-300 p-1.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all"
-                      title="Clear text"
-                    >
-                      <RotateCcw className="h-3.5 w-3.5" />
-                    </button>
-                  )}
-                </div>
+                    <RotateCcw className="h-3 w-3" />
+                  </button>
+                )}
               </div>
 
-              {/* Action and Info Row */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                <div className="text-xs text-slate-400 flex items-center gap-1.5 self-start sm:self-auto">
-                  <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-                  <span>Phase 1 Mock Analysis Engine active</span>
-                </div>
+              {/* Action bar inside the window */}
+              <div className="border-t border-[#30363D] px-4 py-2.5 bg-[#161B22]/50 flex items-center justify-between">
+                <span className="font-mono text-[10px] text-[#8B949E]">
+                  ASCII characters: {jdText.length}
+                </span>
 
                 <button
                   type="submit"
                   disabled={isAnalyzing || !jdText.trim()}
-                  className="w-full sm:w-auto relative group overflow-hidden font-medium text-sm px-6 py-3 rounded-xl shadow-lg bg-gradient-to-r from-violet-600 via-indigo-600 to-violet-600 text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none hover:shadow-violet-950/40"
+                  className="bg-[#D4933A] hover:bg-[#c2822d] text-[#0D1117] font-mono text-xs font-bold px-4 py-1.5 rounded transition-all disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1.5"
                 >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    {isAnalyzing ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin text-white" />
-                        Decoding Job...
-                      </>
-                    ) : (
-                      <>
-                        Decode Job Description
-                        <ArrowRight className="h-4 w-4 text-violet-200 group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </span>
-                  {/* Subtle hover gradient reflection animation */}
-                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-500 to-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {isAnalyzing ? (
+                    <span>DECODING...</span>
+                  ) : (
+                    <>
+                      <span>DECODE_JD</span>
+                      <ArrowRight className="h-3 w-3" />
+                    </>
+                  )}
                 </button>
               </div>
             </form>
           </div>
         </section>
 
-        {/* Dynamic Loading Component */}
+        {/* Terminal Loading Simulation */}
         {isAnalyzing && (
-          <section className="mt-8 glass-panel rounded-2xl p-6 border-violet-500/20 shadow-xl animate-fade-in-up">
-            <div className="flex flex-col items-center justify-center py-6 text-center">
-              <div className="relative mb-6">
-                {/* Glowing ring under spinner */}
-                <div className="absolute inset-0 w-12 h-12 bg-violet-600/30 rounded-full blur-md animate-pulse" />
-                <Loader2 className="h-12 w-12 text-violet-400 animate-spin relative" />
+          <section className="mb-8 animate-fade-in-up">
+            <div className="border border-[#30363D] rounded-lg overflow-hidden bg-[#161B22]">
+              <div className="border-b border-[#30363D] px-4 py-1.5 bg-[#161B22] flex items-center gap-2">
+                <Terminal className="h-3 w-3 text-[#8B949E]" />
+                <span className="font-mono text-[10px] text-[#8B949E]">stdout.log</span>
               </div>
-              <h3 className="font-display font-semibold text-lg text-white mb-2">
-                Analyzing Job DNA
-              </h3>
-              <p className="text-slate-400 text-xs max-w-sm mb-6">
-                Evaluating skills, calculating match criteria, and
-                cross-referencing candidate checklists.
-              </p>
-
-              {/* Progress Log steps */}
-              <div className="w-full max-w-md bg-slate-950/60 rounded-xl p-4 border border-slate-800/80 text-left font-mono text-xs space-y-2.5">
+              <div className="p-4 bg-[#0D1117] font-mono text-[11px] leading-relaxed space-y-1.5">
                 {loadingSteps.map((stepMsg, idx) => {
-                  const isActive = idx === currentLoadingStep;
-                  const isCompleted = idx < currentLoadingStep;
+                  const isCurrent = idx === currentLoadingStep;
+                  const isDone = idx < currentLoadingStep;
                   return (
                     <div
                       key={idx}
-                      className={`flex items-start gap-2.5 transition-all duration-200 ${
-                        isActive
-                          ? "text-violet-400 font-medium scale-[1.01]"
-                          : isCompleted
-                            ? "text-teal-400/80"
-                            : "text-slate-600"
-                      }`}
+                      className={
+                        isCurrent 
+                          ? "text-[#F0F6FC]" 
+                          : isDone 
+                          ? "text-[#8B949E]" 
+                          : "text-[#30363D]"
+                      }
                     >
-                      <span>{isCompleted ? "✔" : isActive ? "⚡" : "○"}</span>
-                      <span>{stepMsg}</span>
+                      {isDone ? "[OK] " : isCurrent ? "[..] " : "[  ] "}
+                      {stepMsg}
                     </div>
                   );
                 })}
@@ -297,152 +244,123 @@ export default function Home() {
           </section>
         )}
 
-        {/* Results Card Display */}
+        {/* Output Results */}
         {results && !isAnalyzing && (
-          <section
-            ref={resultsRef}
-            className="mt-12 space-y-8 animate-fade-in-up"
-          >
-            {/* Results Title Banner */}
-            <div className="glass-panel rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-l-violet-500 relative overflow-hidden shadow-xl">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-violet-600/5 rounded-full blur-2xl" />
+          <section ref={resultsRef} className="space-y-6 animate-fade-in-up">
+            
+            {/* Header Banner */}
+            <div className="border border-[#30363D] bg-[#161B22] rounded-lg p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-xs uppercase font-bold tracking-wider text-violet-400 px-2 py-0.5 rounded-md bg-violet-950/50 border border-violet-800/40">
-                    Analysis Completed
+                  <span className="font-mono text-[10px] uppercase font-bold text-[#8B949E] border border-[#30363D] px-1.5 py-0.2 rounded bg-[#0D1117]">
+                    OUTPUT_DECODED
                   </span>
-                  <span className="text-xs text-slate-500 font-semibold flex items-center gap-1">
-                    <TrendingUp className="h-3 w-3 text-teal-400" />
-                    {results.confidence}% Confidence Rate
+                  <span className="font-mono text-[10px] text-[#8B949E] flex items-center gap-1">
+                    <TrendingUp className="h-3.5 w-3.5" />
+                    {results.confidence}% match confidence
                   </span>
                 </div>
-                <h2 className="font-display font-black text-2xl md:text-3xl text-white tracking-tight">
+                <h2 className="font-mono font-bold text-lg text-[#F0F6FC]">
                   {results.roleTitle}
                 </h2>
               </div>
-
-              <div className="flex items-center gap-3 bg-slate-950/60 border border-slate-800/80 px-4 py-2 rounded-xl self-start md:self-auto shadow-inner">
-                <Award className="h-5 w-5 text-teal-400" />
-                <div>
-                  <div className="text-[10px] uppercase font-bold tracking-wider text-slate-500">
-                    Decoded Level
-                  </div>
-                  <div className="text-sm font-bold text-white">
-                    {results.seniority}
-                  </div>
+              
+              <div className="flex items-center gap-3 bg-[#0D1117] border border-[#30363D] px-3.5 py-1.5 rounded-lg self-start md:self-auto">
+                <div className="text-right">
+                  <div className="font-mono text-[9px] uppercase text-[#8B949E]">seniority</div>
+                  <div className="font-mono text-xs font-bold text-[#F0F6FC]">{results.seniority}</div>
                 </div>
               </div>
             </div>
 
-            {/* Dashboard grid */}
+            {/* Results Grid layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Summary and Behind the scenes Card */}
-              <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between shadow-lg relative">
-                <div className="absolute top-0 right-0 p-4 text-violet-500/10 pointer-events-none">
-                  <Layers className="h-20 w-20" />
-                </div>
+              
+              {/* Summary Card */}
+              <div className="border border-[#30363D] bg-[#161B22] rounded-lg p-5 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-display text-lg font-bold text-white mb-3 flex items-center gap-2">
-                    <span className="p-1 bg-slate-900 border border-slate-800 rounded-lg text-violet-400">
-                      📄
-                    </span>
-                    Role Summary & Reality Check
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed mb-4">
+                  <div className="font-mono text-[10px] text-[#D4933A] uppercase tracking-wider mb-3">
+                    // 01 / role summary
+                  </div>
+                  <p className="text-xs text-[#C9D1D9] leading-relaxed mb-4">
                     {results.summary}
                   </p>
-                  <div className="mt-4 p-4 rounded-xl border border-teal-500/20 bg-teal-950/20 relative">
-                    <div className="absolute top-2.5 right-3 text-[10px] uppercase font-bold tracking-wider text-teal-400/90 flex items-center gap-1 bg-teal-950 px-2 py-0.5 rounded border border-teal-800/30">
-                      <span>Candid translation</span>
+                  
+                  {/* Candid Translation Pane */}
+                  <div className="border border-[#30363D] bg-[#0D1117] p-3.5 rounded-lg">
+                    <div className="font-mono text-[9px] text-[#8B949E] uppercase tracking-wider mb-1">
+                      candid translation:
                     </div>
-                    <h4 className="text-xs font-bold text-teal-300 uppercase tracking-wider mb-1.5 flex items-center gap-1">
-                      <span>Behind the Scenes:</span>
-                    </h4>
-                    <p className="text-xs text-teal-200/90 leading-relaxed italic">
+                    <p className="text-xs text-[#8B949E] italic leading-relaxed">
                       &ldquo;{results.translatedSummary}&rdquo;
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Seniority Check Card */}
-              <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between shadow-lg relative">
+              {/* Seniority Assessment Card */}
+              <div className="border border-[#30363D] bg-[#161B22] rounded-lg p-5 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-display text-lg font-bold text-white mb-3 flex items-center gap-2">
-                    <span className="p-1 bg-slate-900 border border-slate-800 rounded-lg text-violet-400">
-                      ⚖
-                    </span>
-                    Seniority Check
-                  </h3>
-                  <div className="mb-4">
-                    <div className="flex justify-between text-xs text-slate-400 mb-1.5">
-                      <span>Assessed Experience Level</span>
-                      <span className="font-semibold text-white">
-                        {results.seniority}
-                      </span>
+                  <div className="font-mono text-[10px] text-[#D4933A] uppercase tracking-wider mb-3">
+                    // 02 / seniority assessment
+                  </div>
+                  
+                  {/* Flat progress representation */}
+                  <div className="mb-4 bg-[#0D1117] p-3 rounded-lg border border-[#30363D]">
+                    <div className="flex justify-between font-mono text-[10px] text-[#8B949E] mb-1.5">
+                      <span>Assessed:</span>
+                      <span className="text-[#F0F6FC] font-semibold">{results.seniority}</span>
                     </div>
-                    {/* Visual Meter for experience ranges */}
-                    <div className="h-2.5 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800 flex">
-                      <div
-                        className={`h-full rounded-l-full transition-all duration-500 ${
-                          results.seniority === "Junior"
-                            ? "w-1/4 bg-blue-500"
-                            : results.seniority === "Mid-Level"
-                              ? "w-2/4 bg-teal-500"
-                              : results.seniority === "Senior"
-                                ? "w-3/4 bg-violet-500"
-                                : "w-full bg-gradient-to-r from-violet-500 to-indigo-500"
+                    
+                    {/* Visual Meter */}
+                    <div className="h-1.5 w-full bg-[#30363D] rounded-sm overflow-hidden flex">
+                      <div 
+                        className={`h-full bg-[#8B949E] transition-all duration-300 ${
+                          results.seniority === 'Junior' 
+                            ? 'w-1/4' 
+                            : results.seniority === 'Mid-Level'
+                            ? 'w-2/4'
+                            : results.seniority === 'Senior'
+                            ? 'w-3/4'
+                            : 'w-full'
                         }`}
                       />
                     </div>
-                    <div className="flex justify-between text-[10px] text-slate-600 mt-1 uppercase font-bold tracking-wider px-0.5">
-                      <span>Junior</span>
-                      <span>Mid</span>
-                      <span>Senior</span>
-                      <span>Lead+</span>
+                    
+                    <div className="flex justify-between font-mono text-[8px] text-[#8B949E] mt-1.5">
+                      <span>JUNIOR</span>
+                      <span>MID</span>
+                      <span>SENIOR</span>
+                      <span>LEAD+</span>
                     </div>
                   </div>
-                  <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
-                    Reasoning Analysis:
-                  </h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+
+                  <div className="font-mono text-[9px] text-[#8B949E] uppercase tracking-wider mb-1">
+                    rationale logic:
+                  </div>
+                  <p className="text-xs text-[#8B949E] leading-relaxed">
                     {results.seniorityReason}
                   </p>
                 </div>
-                <div className="mt-4 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500">
-                  <span>Classification Confidence:</span>
-                  <span className="font-semibold text-slate-300">
-                    {results.confidence}%
-                  </span>
-                </div>
               </div>
 
-              {/* Skills Card */}
-              <div className="glass-panel rounded-2xl p-6 shadow-lg">
-                <h3 className="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <span className="p-1 bg-slate-900 border border-slate-800 rounded-lg text-violet-400">
-                    💡
-                  </span>
-                  Skills Breakdown
-                </h3>
-
+              {/* Skills Breakdown Card */}
+              <div className="border border-[#30363D] bg-[#161B22] rounded-lg p-5">
+                <div className="font-mono text-[10px] text-[#D4933A] uppercase tracking-wider mb-3">
+                  // 03 / skills audit
+                </div>
+                
                 <div className="space-y-4">
                   {/* Must-Haves */}
                   <div>
-                    <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                      Must-Have Competencies
-                    </h4>
-                    <ul className="space-y-1.5">
+                    <div className="font-mono text-[9px] uppercase tracking-wider text-[#F0F6FC] mb-2">
+                      [+] must-have competencies
+                    </div>
+                    <ul className="space-y-1 font-mono text-xs text-[#C9D1D9]">
                       {results.mustHaves.map((skill, index) => (
-                        <li
-                          key={index}
-                          className="flex items-center gap-2 text-xs text-slate-300 bg-slate-900/50 border border-slate-800/80 px-2.5 py-1.5 rounded-lg"
-                        >
-                          <span className="text-emerald-400 font-bold text-xs select-none">
-                            ✓
-                          </span>
-                          {skill}
+                        <li key={index} className="flex items-center gap-1.5 py-0.5">
+                          <span className="text-[#8B949E]">-</span>
+                          <span>{skill}</span>
                         </li>
                       ))}
                     </ul>
@@ -450,20 +368,14 @@ export default function Home() {
 
                   {/* Nice-to-haves */}
                   <div>
-                    <h4 className="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-                      Nice-To-Have Skills
-                    </h4>
-                    <ul className="space-y-1.5">
+                    <div className="font-mono text-[9px] uppercase tracking-wider text-[#8B949E] mb-2">
+                      [?] nice-to-have options
+                    </div>
+                    <ul className="space-y-1 font-mono text-xs text-[#8B949E]">
                       {results.niceToHaves.map((skill, index) => (
-                        <li
-                          key={index}
-                          className="flex items-center gap-2 text-xs text-slate-300 bg-slate-900/50 border border-slate-800/80 px-2.5 py-1.5 rounded-lg"
-                        >
-                          <span className="text-indigo-400 font-bold text-xs select-none">
-                            +
-                          </span>
-                          {skill}
+                        <li key={index} className="flex items-center gap-1.5 py-0.5">
+                          <span className="text-[#30363D]">-</span>
+                          <span>{skill}</span>
                         </li>
                       ))}
                     </ul>
@@ -472,165 +384,108 @@ export default function Home() {
               </div>
 
               {/* Red Flags Card */}
-              <div className="glass-panel rounded-2xl p-6 shadow-lg border-t border-t-amber-500/20">
-                <h3 className="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <ShieldAlert className="h-5 w-5 text-amber-500" />
-                  Jargon & Red Flags
-                </h3>
-
-                <div className="space-y-3.5 max-h-[300px] overflow-y-auto pr-1 no-scrollbar">
-                  {results.redFlags.map((flag, index) => {
-                    const sevColor =
-                      flag.severity === "high"
-                        ? "border-red-500/30 bg-red-950/10 text-red-300"
-                        : flag.severity === "medium"
-                          ? "border-amber-500/30 bg-amber-950/10 text-amber-300"
-                          : "border-yellow-500/20 bg-yellow-950/5 text-yellow-300";
-                    return (
-                      <div
-                        key={index}
-                        className={`p-3 rounded-xl border flex gap-3 text-xs leading-relaxed ${sevColor}`}
-                      >
-                        <AlertTriangle className="h-4.5 w-4.5 shrink-0 text-amber-400" />
-                        <div>
-                          <div className="font-bold text-white flex items-center gap-2 mb-0.5">
-                            {flag.flag}
-                            <span
-                              className={`text-[9px] uppercase font-extrabold tracking-wider px-1.5 py-0.2 rounded border ${
-                                flag.severity === "high"
-                                  ? "border-red-500/40 text-red-400 bg-red-950/40"
-                                  : "border-amber-500/40 text-amber-400 bg-amber-950/40"
-                              }`}
-                            >
-                              {flag.severity} risk
-                            </span>
-                          </div>
-                          <p className="text-slate-400 text-[11px] leading-relaxed">
-                            {flag.description}
-                          </p>
-                        </div>
+              <div className="border border-[#30363D] bg-[#161B22] rounded-lg p-5">
+                <div className="font-mono text-[10px] text-[#D4933A] uppercase tracking-wider mb-3">
+                  // 04 / jargon & red flags
+                </div>
+                
+                <div className="space-y-3 max-h-[260px] overflow-y-auto pr-1 no-scrollbar">
+                  {results.redFlags.map((flag, index) => (
+                    <div key={index} className="border border-[#30363D] bg-[#0D1117] p-3 rounded-lg">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="font-mono text-[10px] text-[#F0F6FC] font-semibold">
+                          {flag.flag}
+                        </span>
+                        <span className={`font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.2 border ${
+                          flag.severity === "high" || flag.severity === "medium"
+                            ? "border-[#D4933A]/40 text-[#D4933A] bg-[#D4933A]/5"
+                            : "border-[#30363D] text-[#8B949E] bg-[#161B22]"
+                        }`}>
+                          {flag.severity}_risk
+                        </span>
                       </div>
-                    );
-                  })}
+                      <p className="text-[11px] text-[#8B949E] leading-relaxed">
+                        {flag.description}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
             {/* Study Checklist Card */}
-            <div className="glass-panel rounded-2xl p-6 md:p-8 shadow-xl border border-slate-800">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-800/80">
-                <div className="flex items-center gap-3">
-                  <div className="p-2.5 bg-violet-950/80 border border-violet-800/40 rounded-xl text-violet-400">
-                    <GraduationCap className="h-6 w-6" />
+            <div className="border border-[#30363D] bg-[#161B22] rounded-lg p-5 md:p-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-4 border-b border-[#30363D]">
+                <div>
+                  <div className="font-mono text-[10px] text-[#D4933A] uppercase tracking-wider">
+                    // 05 / study checklist
                   </div>
-                  <div>
-                    <h3 className="font-display text-xl font-bold text-white">
-                      Study Checklist
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      Interactive preparation targets curated for this role
-                    </p>
-                  </div>
+                  <div className="text-xs text-[#8B949E] mt-0.5">Select items to mark target study goals</div>
                 </div>
 
-                {/* Progress bar */}
-                <div className="w-full md:w-64">
-                  <div className="flex justify-between items-center text-xs mb-1.5">
-                    <span className="text-slate-400 font-medium">
-                      Topic Mastery Status
-                    </span>
-                    <span className="font-semibold text-violet-400 bg-violet-950/50 px-2 py-0.5 rounded border border-violet-800/30">
-                      {progressPercent}%
-                    </span>
+                {/* Progress metrics */}
+                <div className="w-full md:w-56">
+                  <div className="flex justify-between items-center font-mono text-[10px] mb-1">
+                    <span className="text-[#8B949E]">Status:</span>
+                    <span className="text-[#D4933A] font-semibold">{progressPercent}% done</span>
                   </div>
-                  <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                    <div
-                      className="h-full bg-gradient-to-r from-violet-600 to-teal-400 rounded-full transition-all duration-300"
+                  <div className="h-1.5 w-full bg-[#30363D] rounded-sm overflow-hidden">
+                    <div 
+                      className="h-full bg-[#D4933A] transition-all duration-300"
                       style={{ width: `${progressPercent}%` }}
                     />
-                  </div>
-                  <div className="text-[10px] text-slate-500 text-right mt-1.5">
-                    {completedCount} of {totalCount} completed
                   </div>
                 </div>
               </div>
 
-              {/* Checklist items */}
-              <div className="space-y-2.5">
+              {/* Checklist Elements */}
+              <div className="space-y-1.5">
                 {checklist.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => toggleChecklistItem(item.id)}
-                    className={`w-full text-left p-3.5 rounded-xl border flex items-center justify-between gap-3.5 transition-all text-xs ${
-                      item.completed
-                        ? "border-teal-500/20 bg-teal-950/10 text-slate-400"
-                        : "border-slate-800/80 hover:border-slate-700 bg-slate-950/20 hover:bg-slate-950/40 text-slate-200"
+                    className={`w-full text-left font-mono text-[11px] p-2.5 border rounded flex items-center justify-between gap-3 transition-colors ${
+                      item.completed 
+                        ? "border-[#30363D] bg-[#161B22]/20 text-[#8B949E]" 
+                        : "border-[#30363D] bg-[#0D1117] hover:bg-[#161B22] text-[#C9D1D9]"
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="shrink-0">
-                        {item.completed ? (
-                          <CheckCircle2 className="h-5 w-5 text-teal-400 fill-teal-950/30" />
-                        ) : (
-                          <div className="h-5 w-5 rounded-full border-2 border-slate-700 hover:border-slate-500 transition-colors" />
-                        )}
-                      </div>
-                      <span
-                        className={`leading-relaxed ${item.completed ? "line-through text-slate-500" : ""}`}
-                      >
+                    <div className="flex items-center gap-2">
+                      <span className={`text-[10px] select-none ${item.completed ? "text-[#8B949E]" : "text-[#D4933A]"}`}>
+                        {item.completed ? "[X]" : "[ ]"}
+                      </span>
+                      <span className={item.completed ? "line-through text-[#8B949E]" : ""}>
                         {item.topic}
                       </span>
                     </div>
-
-                    <span
-                      className={`shrink-0 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded border ${
-                        item.completed
-                          ? "border-teal-500/30 text-teal-400 bg-teal-950/40"
-                          : "border-slate-700/50 text-slate-500 bg-slate-900/30"
-                      }`}
-                    >
-                      {item.completed ? "Acement ready" : "to learn"}
+                    
+                    <span className={`text-[8px] uppercase tracking-wider ${item.completed ? "text-[#8B949E]" : "text-[#D4933A]"}`}>
+                      {item.completed ? "ready" : "todo"}
                     </span>
                   </button>
                 ))}
               </div>
-
-              {/* Encouragement banner */}
-              {progressPercent === 100 && (
-                <div className="mt-6 p-4 rounded-xl border border-teal-500/30 bg-teal-950/20 text-center animate-pulse">
-                  <p className="text-teal-300 font-bold text-xs">
-                    🎉 You are fully prepared to interview for this role! Go
-                    crush it!
-                  </p>
-                </div>
-              )}
             </div>
           </section>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="mt-20 border-t border-slate-900 bg-slate-950 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-slate-900 border border-slate-800 rounded-lg">
-              <Sparkles className="h-4 w-4 text-violet-400" />
-            </div>
-            <span className="font-display font-semibold text-sm tracking-tight text-white">
-              JD Decoder
-            </span>
-          </div>
+      <footer className="mt-20 border-t border-[#30363D] bg-[#0D1117]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+          <span className="font-mono font-bold tracking-tight text-[#F0F6FC] text-sm">
+            JD_<span className="text-[#D4933A]">DECODER</span> // PHASE_1
+          </span>
 
-          <p className="text-xs text-slate-500 text-center md:text-left">
-            &copy; {new Date().getFullYear()} JD Decoder. All rights reserved.
-            Created by{" "}
+          <p className="text-[#8B949E] text-center md:text-left">
+            &copy; {new Date().getFullYear()} JD Decoder. Created by{" "}
             <a
-              href="https://www.linkedin.com/in/arvindm"
+              href="https://www.linkedin.com/in/arvind-m-ab2a71148"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-300 hover:text-white underline inline-flex items-center gap-0.5 transition-colors"
+              className="text-[#C9D1D9] hover:underline font-mono"
             >
-              Arvind M
+              arvindm
             </a>
           </p>
 
@@ -638,9 +493,9 @@ export default function Home() {
             href="https://frontendprep.io"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-slate-400 hover:text-white transition-colors"
+            className="font-mono text-[#8B949E] hover:text-[#C9D1D9]"
           >
-            Prep Tool: frontendprep.io
+            frontendprep.io
           </a>
         </div>
       </footer>
