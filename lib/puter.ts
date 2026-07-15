@@ -113,11 +113,37 @@ ${text}`;
       niceToHaves: Array.isArray(parsed.niceToHaves) ? parsed.niceToHaves : [],
       redFlags: Array.isArray(parsed.redFlags) ? parsed.redFlags : [],
       studyChecklist: Array.isArray(parsed.studyChecklist)
-        ? parsed.studyChecklist.map((item: any, i: number) => ({
-            id: item.id || `topic-${i + 1}`,
-            topic: item.topic || String(item),
-            completed: typeof item.completed === "boolean" ? item.completed : false,
-          }))
+        ? parsed.studyChecklist.map((item: any, i: number) => {
+            let topicText = "";
+            let isCompleted = false;
+
+            if (typeof item === "string") {
+              topicText = item;
+            } else if (item && typeof item === "object") {
+              // Extract the topic text from common string fields
+              topicText = item.topic || item.title || item.description || item.text || item.name || "";
+              
+              // Fallback: search for any string value in the object if common fields are missing
+              if (!topicText) {
+                const stringValues = Object.values(item).filter(v => typeof v === "string");
+                if (stringValues.length > 0) {
+                  topicText = stringValues[0] as string;
+                } else {
+                  topicText = JSON.stringify(item);
+                }
+              }
+
+              isCompleted = typeof item.completed === "boolean" ? item.completed : false;
+            } else {
+              topicText = String(item);
+            }
+
+            return {
+              id: (item && item.id) || `topic-${i + 1}`,
+              topic: topicText,
+              completed: isCompleted,
+            };
+          })
         : [],
     };
   } catch (err) {
