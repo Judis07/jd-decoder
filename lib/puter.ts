@@ -62,10 +62,16 @@ Job Description:
 ${text}`;
 
   // We request puter.ai.chat to generate the content. 
-  // We use claude-3-5-sonnet for best-in-class structural JSON reasoning.
-  const response = await puter.ai.chat(prompt, {
-    model: "claude-3-5-sonnet",
-  });
+  // We use claude-3-5-sonnet with its provider prefix for best-in-class structural JSON reasoning.
+  let response;
+  try {
+    response = await puter.ai.chat(prompt, {
+      model: "anthropic/claude-3-5-sonnet",
+    });
+  } catch (err) {
+    console.warn("anthropic/claude-3-5-sonnet not found or failed, falling back to default Puter AI model:", err);
+    response = await puter.ai.chat(prompt);
+  }
 
   if (!response || !response.message || !response.message.content) {
     throw new Error("Empty response received from Puter AI.");
